@@ -1,5 +1,4 @@
-# Docker Container
----
+# digiblink/alpine-nginx-php-fpm Docker Container
 
 Maintained by [digiBlink](http://digiblink.eu) - [docker hub link](https://hub.docker.com/r/digiblink/alpine-nginx-php-fpm/)
 
