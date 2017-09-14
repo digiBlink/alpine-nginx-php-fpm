@@ -24,17 +24,11 @@ RUN apk add --no-cache --virtual .persistent-deps \
 
 # ensure www-data user exists
 RUN set -x \
-#	&& addgroup -g 82 -S www-data \
 	&& adduser -u 82 -D -S -G www-data www-data
-# 82 is the standard uid/gid for "www-data" in Alpine
-# http://git.alpinelinux.org/cgit/aports/tree/main/apache2/apache2.pre-install?h=v3.3.2
-# http://git.alpinelinux.org/cgit/aports/tree/main/lighttpd/lighttpd.pre-install?h=v3.3.2
-# http://git.alpinelinux.org/cgit/aports/tree/main/nginx-initscripts/nginx-initscripts.pre-install?h=v3.3.2
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-#ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=nginx --with-fpm-group=www-data
 
 # Apply stack smash protection to functions using local buffers and alloca()
@@ -177,7 +171,6 @@ RUN apk add --no-cache tzdata \
    && apk del tzdata
 
 COPY files/docker-php-ext-* /usr/local/bin/
-# files/docker-php-entrypoint /usr/local/bin/
 
 RUN rm -rf /var/cache/apk/*
 
@@ -189,9 +182,6 @@ ENV TERM="xterm" \
     DB_PASS=""
 
 ENV PATH /DATA/bin:$PATH
-
-#ENTRYPOINT ["docker-php-entrypoint"]
-#WORKDIR /var/www/html
 
 RUN set -ex \
 	&& cd /usr/local/etc \
@@ -229,40 +219,18 @@ RUN set -ex \
 		echo 'listen = [::]:9000'; \
 	} | tee php-fpm.d/zz-docker.conf
 
-#ENV WORDPRESS_VERSION 4.8.1
-#ENV WORDPRESS_SHA1 5376cf41403ae26d51ca55c32666ef68b10e35a4
-
-#RUN set -ex; \
-#	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
-#	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
-	# upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
-#	tar -xzf wordpress.tar.gz -C /usr/src/; \
-#	rm wordpress.tar.gz; \
-#	chown -R www-data:www-data /usr/src/wordpress
-
 ADD files/nginx.conf /etc/nginx/
 ADD files/php-fpm.conf /usr/local/etc/
 ADD files/php.ini /usr/local/etc/php/
 ADD files/run.sh /
-#ADD files/wp-config-devoply.php /usr/bin/wp-config-devoply
 RUN chmod +x /run.sh
-#    && chmod +x /usr/bin/wp-config-devoply
 
-#RUN sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /usr/local/etc/php/php.ini && \
 RUN sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/DATA:\/bin\/bash/g" /etc/passwd && \
     sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/DATA:\/bin\/bash/g" /etc/passwd-
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/bin/wp-cli && chown nginx:nginx /usr/bin/wp-cli
 
 EXPOSE 80
-
-#COPY docker-entrypoint.sh /usr/local/bin/
-
-#RUN chmod a+x /usr/local/bin/docker-entrypoint.sh
-
-#ENTRYPOINT ["docker-entrypoint.sh"]
-
-#CMD ["php-fpm"]
 
 VOLUME ["/DATA"]
 
