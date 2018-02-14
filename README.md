@@ -7,7 +7,8 @@ Container with:
 * Alpine Linux 3.4 (default time zone `Europe/Riga`)
 * nginx 1.10.3
 * PHP-FPM 7.0.27 (all necessary extensions to be ready for Wordpress deployment)
-* WP-CLI 1.4.1
+* WP-CLI 1.5.0
+* git
 
 Based on following containers:
 
@@ -34,4 +35,3 @@ su nginx
 cd /DATA
 wp-cli
 ```
-
