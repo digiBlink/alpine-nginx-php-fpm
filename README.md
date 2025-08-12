@@ -1,4 +1,4 @@
-# digiblink/alpine-nginx-php-fpm Docker Container
+# digiblink/alpine-nginx-php-fpm Container Image
 
 Maintained by [digiBlink](https://digiblink.eu)
 
@@ -14,7 +14,7 @@ Container with:
 
 To get it running just enter:
 
-`docker run -d --name your_container -v /sites/yourdomain.com:/DATA -p 80:80 -t digiblink/alpine-nginx-php-fpm`
+`docker run -d --name your_container -v /sites/yourdomain.com:/DATA -p 80:80 -t ghcr.io/digiblink/alpine-nginx-php-fpm`
 
 After that you can use BusyBox bash, to log into container and use [WP-CLI](http://wp-cli.org), to install [WordPress](https://wordpress.org):
 
