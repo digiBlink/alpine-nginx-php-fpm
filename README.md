@@ -4,9 +4,9 @@ Maintained by [digiBlink](https://digiblink.eu)
 
 Container with:
 
-* Alpine Linux 3.21 (with latest security updates)
-* nginx 1.26.3-r0
-* PHP-FPM 8.4.11 (all necessary extensions to be ready for Wordpress deployment)
+* Alpine Linux 3.24 (with latest security updates)
+* nginx 1.30.4-r1
+* PHP-FPM 8.4.25 (all necessary extensions to be ready for Wordpress deployment)
 * WP-CLI 2.12.0
 * git, bash
 

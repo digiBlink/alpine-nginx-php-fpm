@@ -1,4 +1,4 @@
-FROM php:8.4.11-fpm-alpine3.21
+FROM php:8.4.25-fpm-alpine3.24
 
 RUN apk add -U --no-cache \
         nginx \
