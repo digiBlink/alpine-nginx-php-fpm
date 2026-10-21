@@ -6,7 +6,7 @@ Container with:
 
 * Alpine Linux 3.24 (with latest security updates)
 * nginx 1.30.4-r1
-* PHP-FPM 8.4.25 (all necessary extensions to be ready for Wordpress deployment)
+* PHP-FPM 8.4.26 (all necessary extensions to be ready for Wordpress deployment)
 * WP-CLI 2.12.0
 * git, bash
 
